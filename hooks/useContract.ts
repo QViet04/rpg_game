@@ -70,12 +70,13 @@ export const useContract = () => {
   };
 
   // 2. Rèn Kiếm (4 chỉ số, ảnh chỉ dùng trên UI)
-  const forgeSword = (strength: number, agility: number, hp: number, crit: number) => {
+  const forgeSword = (imgUrl: string, strength: number, agility: number, hp: number, crit: number) => {
     if (!packageId) return;
     const tx = new Transaction();
     tx.moveCall({
       target: `${packageId}::${CONTRACT_MODULE}::${CONTRACT_METHODS.FORGE_SWORD}`,
       arguments: [
+          tx.pure.string(imgUrl),
           tx.pure.u64(strength),
           tx.pure.u64(agility),
           tx.pure.u64(hp),

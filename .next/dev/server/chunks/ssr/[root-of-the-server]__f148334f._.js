@@ -42,7 +42,7 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$rpg_game$2f$node_modules$2f4
 var __TURBOPACK__imported__module__$5b$project$5d2f$rpg_game$2f$node_modules$2f40$iota$2f$dapp$2d$kit$2f$dist$2f$esm$2f$index$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/rpg_game/node_modules/@iota/dapp-kit/dist/esm/index.js [app-ssr] (ecmascript)");
 ;
 ;
-const DEVNET_PACKAGE_ID = "0x196c0f2b682f4a6635f3b15bb5fe76c012e397a2d505b728e78f3ddf3e4e852d";
+const DEVNET_PACKAGE_ID = "0x1d85a6ff9cd06479bf0fefe6a31a109498e9a98f2bb5296509ad2047328a7637";
 const TESTNET_PACKAGE_ID = "";
 const MAINNET_PACKAGE_ID = "";
 // Network configuration

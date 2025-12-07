@@ -124,7 +124,7 @@ const SampleIntegration = () => {
             </Box>
 
             <Button size="3" color="orange" 
-              onClick={() => forgeSword(parseInt(stats.strength), parseInt(stats.agility), parseInt(stats.hp), parseInt(stats.crit))} 
+              onClick={() => forgeSword(stats.imgUrl, parseInt(stats.strength), parseInt(stats.agility), parseInt(stats.hp), parseInt(stats.crit))} 
                 disabled={isLoading || !!swordId} variant="solid" style={{marginTop: '10px'}}>
                 <MixerHorizontalIcon /> {swordId ? "Forged" : "Forge Sword"}
             </Button>

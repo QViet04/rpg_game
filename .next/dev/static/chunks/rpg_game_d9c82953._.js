@@ -121,12 +121,13 @@ const useContract = ()=>{
         executeTransaction(tx, (id)=>setHeroId(id));
     };
     // 2. Rèn Kiếm (4 chỉ số, ảnh chỉ dùng trên UI)
-    const forgeSword = (strength, agility, hp, crit)=>{
+    const forgeSword = (imgUrl, strength, agility, hp, crit)=>{
         if (!packageId) return;
         const tx = new __TURBOPACK__imported__module__$5b$project$5d2f$rpg_game$2f$node_modules$2f40$iota$2f$iota$2d$sdk$2f$dist$2f$esm$2f$transactions$2f$Transaction$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Transaction"]();
         tx.moveCall({
             target: `${packageId}::${CONTRACT_MODULE}::${CONTRACT_METHODS.FORGE_SWORD}`,
             arguments: [
+                tx.pure.string(imgUrl),
                 tx.pure.u64(strength),
                 tx.pure.u64(agility),
                 tx.pure.u64(hp),
@@ -671,7 +672,7 @@ const SampleIntegration = ()=>{
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$rpg_game$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$rpg_game$2f$node_modules$2f40$radix$2d$ui$2f$themes$2f$dist$2f$esm$2f$components$2f$button$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
                                     size: "3",
                                     color: "orange",
-                                    onClick: ()=>forgeSword(parseInt(stats.strength), parseInt(stats.agility), parseInt(stats.hp), parseInt(stats.crit)),
+                                    onClick: ()=>forgeSword(stats.imgUrl, parseInt(stats.strength), parseInt(stats.agility), parseInt(stats.hp), parseInt(stats.crit)),
                                     disabled: isLoading || !!swordId,
                                     variant: "solid",
                                     style: {
