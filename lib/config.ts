@@ -1,0 +1,37 @@
+/**
+ * Network Configuration
+ * 
+ * Configure your IOTA networks and package IDs here
+ */
+
+import { getFullnodeUrl } from "@iota/iota-sdk/client"
+import { createNetworkConfig } from "@iota/dapp-kit"
+
+// Package IDs - These will be automatically filled when you run `npm run iota-deploy`
+export const DEVNET_PACKAGE_ID = "0x196c0f2b682f4a6635f3b15bb5fe76c012e397a2d505b728e78f3ddf3e4e852d"
+export const TESTNET_PACKAGE_ID = ""
+export const MAINNET_PACKAGE_ID = ""
+
+// Network configuration
+const { networkConfig, useNetworkVariable, useNetworkVariables } = createNetworkConfig({
+  devnet: {
+    url: getFullnodeUrl("devnet"),
+    variables: {
+      packageId: DEVNET_PACKAGE_ID,
+    },
+  },
+  testnet: {
+    url: getFullnodeUrl("testnet"),
+    variables: {
+      packageId: TESTNET_PACKAGE_ID,
+    },
+  },
+  mainnet: {
+    url: getFullnodeUrl("mainnet"),
+    variables: {
+      packageId: MAINNET_PACKAGE_ID,
+    },
+  },
+})
+
+export { useNetworkVariable, useNetworkVariables, networkConfig }
