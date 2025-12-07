@@ -1,69 +1,121 @@
-# IOTA RPG Game Starter
+# 🛡️ IOTA RPG Game – Hero & Sword NFT Module
 
-A beginner-friendly Next.js project template for building an RPG Game (Hero & Sword) on the IOTA network using Move smart contracts.
+Move Smart Contract for Hero Creation, Weapon Forging, and Equip System
 
-## 🚀 Quick Start
+This package implements a simple but expandable **RPG-style NFT system** on the **IOTA MoveVM**.
+Players can **mint Heroes**, **forge Swords**, and **equip weapons** using on-chain logic.
+It also includes metadata configuration for NFT display.
 
-```bash
-# 1. Install dependencies
-npm install --legacy-peer-deps
+---
 
-iota client publish --gas-budget 50000000
-# 2. Deploy Contract (Manual Method)
-cd contract
+## 🚀 Features
 
-# Important: Clear old build cache to avoid path conflicts
-rm -rf build Move.lock
+### ✅ **Hero NFTs**
 
-# Publish code to Devnet
-iota client publish --gas-budget 50000000
+* Each Hero is a `key + store` Move object.
+* Contains:
 
-# Or publish to Testnet
-# iota client publish --network testnet --gas-budget 50000000
-cd ..
+  * Name
+  * Image URL
+  * Optional equipped **Sword**
+  * Unique ID (UID)
 
-# 3. Run the website
-npm run dev
+### ⚔️ **Sword NFTs**
 
-## 🔗 Update package IDs
+* Each Sword is a separate on-chain object.
+* Stats include:
 
-After publishing, copy the `PackageID` from the CLI output and paste it into `lib/config.ts`:
+  * `strength`
+  * `agility`
+  * `hp`
+  * `crit_chance`
+  * Image URL
 
-```ts
-export const DEVNET_PACKAGE_ID = "0x8a1a3d2320b54b53daba0a29a2daf5f76ae52c42337e15648ee99df336e1eb3f"
-export const TESTNET_PACKAGE_ID = "0x352a4291d74723c67bbe23d5bfe1289e3a2932baa09b15b489d73e9fefbb0275"
+### 🎨 **Display Metadata (init)**
+
+The `init` function registers display fields so wallets & explorers can render NFTs:
+
+* name
+* image_url
+* description
+
+### 🔧 **Equip System**
+
+Players can equip swords onto Heroes:
+
+* If a Hero already has a sword → the old sword is returned to the user.
+* The new sword is slotted instantly.
+
+---
+
+## 📦 Module Overview
+
+```
+module rpg_game::hero_shop
 ```
 
-📚 Documentation
-For detailed instructions, please refer to the INSTRUCTION_GUIDE.md file.
+Contains:
 
-🎯 Features
-✅ Wallet connection with IOTA dApp Kit
+* `Hero` struct
+* `Sword` struct
+* `HERO_SHOP` (phantom resource for initialization)
+* Functions to create heroes, forge swords, equip weapons
 
-✅ RPG Game Mechanics: Summon Heroes, Forge Swords
+---
 
-✅ Advanced Move Techniques: Equipment System (Object Wrapping)
+## 📝 Functions
 
-✅ Modern UI using Radix UI
+### 1️⃣ **init(otw, ctx)**
 
-✅ Full TypeScript support
+Initializes display metadata for Hero NFTs.
+Called once per package deployment.
 
-✅ Error handling and Loading states
+### 2️⃣ **create_hero(name, img_url, ctx)**
 
-📁 Project Structure
-Bash
+Mints a Hero NFT to the transaction sender.
 
-├── app/              # Next.js application directory
-├── components/       # React components (Game Dashboard UI)
-├── hooks/            # Custom hooks (Hero & Sword logic handling)
-├── lib/              # Configuration files
-└── contract/         # Move contracts (Hero Module)
-📚 Learn More
-IOTA Documentation
+```move
+public entry fun create_hero(name: String, img_url: String, ctx: &mut TxContext)
+```
 
-IOTA dApp Kit
+### 3️⃣ **forge_sword(img_url, strength, agility, hp, crit_chance, ctx)**
 
-Next.js Documentation
+Creates a Sword NFT with specific stats.
 
-📄 License
-MIT
+### 4️⃣ **equip_sword(&mut Hero, Sword, ctx)**
+
+her", "https://example.com/hero.png")
+```
+
+### 2. Forge a Sword
+
+```
+forge_sword("https://example.com/sword.png", 50, 20, 120, 10)
+```
+
+### 3. Equip the Sword
+
+```
+equip_sword(&mut hero, sword)
+```
+
+---
+
+## 💡 Notes for Developers
+
+* All items are transferred to `tx_context::sender(ctx)`.
+* Using `Option<Sword>` allows Heroes to equip/unequip cleanly.
+* Metadata uses IOTA’s `display::new_with_fields`.
+
+-
+
+If you want, I can also:
+✅ generate badges
+✅ create a full folder structure
+✅ add example transactions
+✅ write documentation comments for all functions
+
+Just tell me!
+
+export const DEVNET_PACKAGE_ID = "0x8a1a3d2320b54b53daba0a29a2daf5f76ae52c42337e15648ee99df336e1eb3f"
+export const TESTNET_PACKAGE_ID = "0x352a4291d74723c67bbe23d5bfe1289e3a2932baa09b15b489d73e9fefbb0275"
