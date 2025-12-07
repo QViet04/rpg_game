@@ -31,7 +31,7 @@ After publishing, copy the `PackageID` from the CLI output and paste it into `li
 
 ```ts
 export const DEVNET_PACKAGE_ID = "0x8a1a3d2320b54b53daba0a29a2daf5f76ae52c42337e15648ee99df336e1eb3f"
-export const TESTNET_PACKAGE_ID = "0x8a1a3d2320b54b53daba0a29a2daf5f76ae52c42337e15648ee99df336e1eb3f"
+export const TESTNET_PACKAGE_ID = "0x352a4291d74723c67bbe23d5bfe1289e3a2932baa09b15b489d73e9fefbb0275"
 ```
 
 📚 Documentation
