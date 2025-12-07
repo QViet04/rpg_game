@@ -8,6 +8,7 @@ A beginner-friendly Next.js project template for building an RPG Game (Hero & Sw
 # 1. Install dependencies
 npm install --legacy-peer-deps
 
+iota client publish --gas-budget 50000000
 # 2. Deploy Contract (Manual Method)
 cd contract
 
@@ -16,10 +17,23 @@ rm -rf build Move.lock
 
 # Publish code to Devnet
 iota client publish --gas-budget 50000000
+
+# Or publish to Testnet
+# iota client publish --network testnet --gas-budget 50000000
 cd ..
 
 # 3. Run the website
 npm run dev
+
+## 🔗 Update package IDs
+
+After publishing, copy the `PackageID` from the CLI output and paste it into `lib/config.ts`:
+
+```ts
+export const DEVNET_PACKAGE_ID = "0x8a1a3d2320b54b53daba0a29a2daf5f76ae52c42337e15648ee99df336e1eb3f"
+export const TESTNET_PACKAGE_ID = "0x8a1a3d2320b54b53daba0a29a2daf5f76ae52c42337e15648ee99df336e1eb3f"
+```
+
 📚 Documentation
 For detailed instructions, please refer to the INSTRUCTION_GUIDE.md file.
 
