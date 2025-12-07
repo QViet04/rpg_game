@@ -19,16 +19,3 @@ dependencies = [
 [[move.package]]
 id = "MoveStdlib"
 source = { git = "https://github.com/iotaledger/iota.git", rev = "testnet", subdir = "crates/iota-framework/packages/move-stdlib" }
-
-[move.toolchain-version]
-compiler-version = "1.12.0-rc"
-edition = "2024.beta"
-flavor = "iota"
-
-[env]
-
-[env.devnet]
-chain-id = "e678123a"
-original-published-id = "0x196c0f2b682f4a6635f3b15bb5fe76c012e397a2d505b728e78f3ddf3e4e852d"
-latest-published-id = "0x196c0f2b682f4a6635f3b15bb5fe76c012e397a2d505b728e78f3ddf3e4e852d"
-published-version = "1"

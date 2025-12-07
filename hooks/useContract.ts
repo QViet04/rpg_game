@@ -9,12 +9,12 @@ import {
 import { Transaction } from "@iota/iota-sdk/transactions";
 import { useNetworkVariable } from "@/lib/config";
 
-// Cập nhật tên module và hàm sang Tiếng Anh
+// Cấu hình tên Module và Hàm (Tiếng Anh)
 export const CONTRACT_MODULE = "hero_shop";
 export const CONTRACT_METHODS = {
-  CREATE_HERO: "create_hero", 
-  FORGE_SWORD: "forge_sword", 
-  EQUIP_SWORD: "equip_sword", 
+  CREATE_HERO: "create_hero",
+  FORGE_SWORD: "forge_sword",
+  EQUIP_SWORD: "equip_sword",
 } as const;
 
 export const useContract = () => {
@@ -23,12 +23,14 @@ export const useContract = () => {
   const iotaClient = useIotaClient();
   const { mutate: signAndExecute, isPending } = useSignAndExecuteTransaction();
 
+  // Các biến lưu trạng thái
   const [heroId, setHeroId] = useState<string | null>(null);
   const [swordId, setSwordId] = useState<string | null>(null);
   const [hash, setHash] = useState<string | undefined>();
   const [error, setError] = useState<Error | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
+  // Hàm xử lý chung cho Transaction
   const executeTransaction = (tx: Transaction, onFoundId: (id: string) => void) => {
       setIsLoading(true);
       setError(null);
@@ -39,6 +41,7 @@ export const useContract = () => {
           onSuccess: async ({ digest }) => {
             setHash(digest);
             try {
+              // Đợi transaction được xác nhận và lấy ID vật phẩm
               const { effects } = await iotaClient.waitForTransaction({
                 digest, options: { showEffects: true },
               });
@@ -55,17 +58,18 @@ export const useContract = () => {
       );
   };
 
-  const createHero = (name: string) => {
+  // 1. Tạo Hero (gửi cả link ảnh)
+  const createHero = (name: string, imgUrl: string) => {
     if (!packageId) return;
     const tx = new Transaction();
     tx.moveCall({
       target: `${packageId}::${CONTRACT_MODULE}::${CONTRACT_METHODS.CREATE_HERO}`,
-      arguments: [tx.pure.string(name)],
+      arguments: [tx.pure.string(name), tx.pure.string(imgUrl)],
     });
     executeTransaction(tx, (id) => setHeroId(id));
   };
 
-  // Hàm Rèn Kiếm nhận 4 tham số
+  // 2. Rèn Kiếm (4 chỉ số, ảnh chỉ dùng trên UI)
   const forgeSword = (strength: number, agility: number, hp: number, crit: number) => {
     if (!packageId) return;
     const tx = new Transaction();
@@ -81,6 +85,7 @@ export const useContract = () => {
     executeTransaction(tx, (id) => setSwordId(id));
   };
 
+  // 3. Trang bị
   const equipSword = () => {
     if (!packageId || !heroId || !swordId) return;
     const tx = new Transaction();

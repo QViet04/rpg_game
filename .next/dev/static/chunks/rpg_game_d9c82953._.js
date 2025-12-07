@@ -69,11 +69,13 @@ const useContract = ()=>{
     const packageId = (0, __TURBOPACK__imported__module__$5b$project$5d2f$rpg_game$2f$lib$2f$config$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useNetworkVariable"])("packageId");
     const iotaClient = (0, __TURBOPACK__imported__module__$5b$project$5d2f$rpg_game$2f$node_modules$2f40$iota$2f$dapp$2d$kit$2f$dist$2f$esm$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useIotaClient"])();
     const { mutate: signAndExecute, isPending } = (0, __TURBOPACK__imported__module__$5b$project$5d2f$rpg_game$2f$node_modules$2f40$iota$2f$dapp$2d$kit$2f$dist$2f$esm$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useSignAndExecuteTransaction"])();
+    // Các biến lưu trạng thái
     const [heroId, setHeroId] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$rpg_game$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(null);
     const [swordId, setSwordId] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$rpg_game$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(null);
     const [hash, setHash] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$rpg_game$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])();
     const [error, setError] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$rpg_game$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(null);
     const [isLoading, setIsLoading] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$rpg_game$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
+    // Hàm xử lý chung cho Transaction
     const executeTransaction = (tx, onFoundId)=>{
         setIsLoading(true);
         setError(null);
@@ -84,6 +86,7 @@ const useContract = ()=>{
             onSuccess: async ({ digest })=>{
                 setHash(digest);
                 try {
+                    // Đợi transaction được xác nhận và lấy ID vật phẩm
                     const { effects } = await iotaClient.waitForTransaction({
                         digest,
                         options: {
@@ -104,18 +107,20 @@ const useContract = ()=>{
             }
         });
     };
-    const createHero = (name)=>{
+    // 1. Tạo Hero (gửi cả link ảnh)
+    const createHero = (name, imgUrl)=>{
         if (!packageId) return;
         const tx = new __TURBOPACK__imported__module__$5b$project$5d2f$rpg_game$2f$node_modules$2f40$iota$2f$iota$2d$sdk$2f$dist$2f$esm$2f$transactions$2f$Transaction$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Transaction"]();
         tx.moveCall({
             target: `${packageId}::${CONTRACT_MODULE}::${CONTRACT_METHODS.CREATE_HERO}`,
             arguments: [
-                tx.pure.string(name)
+                tx.pure.string(name),
+                tx.pure.string(imgUrl)
             ]
         });
         executeTransaction(tx, (id)=>setHeroId(id));
     };
-    // Hàm Rèn Kiếm nhận 4 tham số
+    // 2. Rèn Kiếm (4 chỉ số, ảnh chỉ dùng trên UI)
     const forgeSword = (strength, agility, hp, crit)=>{
         if (!packageId) return;
         const tx = new __TURBOPACK__imported__module__$5b$project$5d2f$rpg_game$2f$node_modules$2f40$iota$2f$iota$2d$sdk$2f$dist$2f$esm$2f$transactions$2f$Transaction$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Transaction"]();
@@ -130,6 +135,7 @@ const useContract = ()=>{
         });
         executeTransaction(tx, (id)=>setSwordId(id));
     };
+    // 3. Trang bị
     const equipSword = ()=>{
         if (!packageId || !heroId || !swordId) return;
         const tx = new __TURBOPACK__imported__module__$5b$project$5d2f$rpg_game$2f$node_modules$2f40$iota$2f$iota$2d$sdk$2f$dist$2f$esm$2f$transactions$2f$Transaction$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Transaction"]();
@@ -188,7 +194,7 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$rpg_game$2f$node_modules$2f4
 var __TURBOPACK__imported__module__$5b$project$5d2f$rpg_game$2f$node_modules$2f40$radix$2d$ui$2f$themes$2f$dist$2f$esm$2f$components$2f$separator$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/rpg_game/node_modules/@radix-ui/themes/dist/esm/components/separator.js [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$rpg_game$2f$node_modules$2f40$radix$2d$ui$2f$themes$2f$dist$2f$esm$2f$components$2f$grid$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/rpg_game/node_modules/@radix-ui/themes/dist/esm/components/grid.js [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$rpg_game$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/rpg_game/node_modules/next/dist/compiled/react/index.js [app-client] (ecmascript)");
-// Radix icons should be imported from the package root so Turbopack can resolve them
+// Import icon từ package root để Turbopack resolve ổn định
 var __TURBOPACK__imported__module__$5b$project$5d2f$rpg_game$2f$node_modules$2f40$radix$2d$ui$2f$react$2d$icons$2f$dist$2f$react$2d$icons$2e$esm$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/rpg_game/node_modules/@radix-ui/react-icons/dist/react-icons.esm.js [app-client] (ecmascript)");
 ;
 var _s = __turbopack_context__.k.signature();
@@ -202,14 +208,25 @@ const SampleIntegration = ()=>{
     _s();
     const currentAccount = (0, __TURBOPACK__imported__module__$5b$project$5d2f$rpg_game$2f$node_modules$2f40$iota$2f$dapp$2d$kit$2f$dist$2f$esm$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useCurrentAccount"])();
     const { createHero, forgeSword, equipSword, heroId, swordId, hash, isLoading, error } = (0, __TURBOPACK__imported__module__$5b$project$5d2f$rpg_game$2f$hooks$2f$useContract$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useContract"])();
+    // State cho Hero
     const [heroName, setHeroName] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$rpg_game$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])("DragonSlayer");
-    // 4 chỉ số mới
+    const [heroImg, setHeroImg] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$rpg_game$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(`https://api.dicebear.com/9.x/adventurer/svg?seed=DragonSlayer`);
+    // State cho Kiếm (Stats + Ảnh)
     const [stats, setStats] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$rpg_game$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])({
         strength: "100",
         agility: "50",
         hp: "500",
-        crit: "25"
+        crit: "25",
+        imgUrl: "https://cdn-icons-png.flaticon.com/512/1065/1065535.png" // Ảnh kiếm mặc định
     });
+    // Hàm xử lý khi nhập tên Hero -> Tự động đổi ảnh avatar
+    const handleNameChange = (e)=>{
+        const name = e.target.value;
+        setHeroName(name);
+        // Tạo ảnh ngẫu nhiên dựa trên tên (dùng Dicebear API)
+        setHeroImg(`https://api.dicebear.com/9.x/adventurer/svg?seed=${name}`);
+    };
+    // Hàm xử lý thay đổi chỉ số kiếm
     const handleStatChange = (key, value)=>{
         setStats((prev)=>({
                 ...prev,
@@ -228,12 +245,12 @@ const SampleIntegration = ()=>{
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$rpg_game$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$rpg_game$2f$node_modules$2f40$radix$2d$ui$2f$themes$2f$dist$2f$esm$2f$components$2f$callout$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__$2a$__as__Callout$3e$__["Callout"].Icon, {
                         children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$rpg_game$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$rpg_game$2f$node_modules$2f40$radix$2d$ui$2f$react$2d$icons$2f$dist$2f$react$2d$icons$2e$esm$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["InfoCircledIcon"], {}, void 0, false, {
                             fileName: "[project]/rpg_game/components/sample.tsx",
-                            lineNumber: 33,
+                            lineNumber: 45,
                             columnNumber: 25
                         }, ("TURBOPACK compile-time value", void 0))
                     }, void 0, false, {
                         fileName: "[project]/rpg_game/components/sample.tsx",
-                        lineNumber: 33,
+                        lineNumber: 45,
                         columnNumber: 11
                     }, ("TURBOPACK compile-time value", void 0)),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$rpg_game$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$rpg_game$2f$node_modules$2f40$radix$2d$ui$2f$themes$2f$dist$2f$esm$2f$components$2f$callout$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__$2a$__as__Callout$3e$__["Callout"].Text, {
@@ -242,18 +259,18 @@ const SampleIntegration = ()=>{
                         children: "Please connect your wallet to play! 💼"
                     }, void 0, false, {
                         fileName: "[project]/rpg_game/components/sample.tsx",
-                        lineNumber: 34,
+                        lineNumber: 46,
                         columnNumber: 11
                     }, ("TURBOPACK compile-time value", void 0))
                 ]
             }, void 0, true, {
                 fileName: "[project]/rpg_game/components/sample.tsx",
-                lineNumber: 32,
+                lineNumber: 44,
                 columnNumber: 9
             }, ("TURBOPACK compile-time value", void 0))
         }, void 0, false, {
             fileName: "[project]/rpg_game/components/sample.tsx",
-            lineNumber: 31,
+            lineNumber: 43,
             columnNumber: 7
         }, ("TURBOPACK compile-time value", void 0));
     }
@@ -274,7 +291,7 @@ const SampleIntegration = ()=>{
                 children: "⚔️ RPG Dashboard"
             }, void 0, false, {
                 fileName: "[project]/rpg_game/components/sample.tsx",
-                lineNumber: 42,
+                lineNumber: 54,
                 columnNumber: 7
             }, ("TURBOPACK compile-time value", void 0)),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$rpg_game$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$rpg_game$2f$node_modules$2f40$radix$2d$ui$2f$themes$2f$dist$2f$esm$2f$components$2f$text$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Text"], {
@@ -282,10 +299,10 @@ const SampleIntegration = ()=>{
                 color: "gray",
                 as: "p",
                 mb: "5",
-                children: "Manage your Hero and Equipment on-chain"
+                children: "Manage your Hero and Equipment on-chain with Images!"
             }, void 0, false, {
                 fileName: "[project]/rpg_game/components/sample.tsx",
-                lineNumber: 45,
+                lineNumber: 57,
                 columnNumber: 7
             }, ("TURBOPACK compile-time value", void 0)),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$rpg_game$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$rpg_game$2f$node_modules$2f40$radix$2d$ui$2f$themes$2f$dist$2f$esm$2f$components$2f$separator$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Separator"], {
@@ -293,7 +310,7 @@ const SampleIntegration = ()=>{
                 size: "4"
             }, void 0, false, {
                 fileName: "[project]/rpg_game/components/sample.tsx",
-                lineNumber: 47,
+                lineNumber: 59,
                 columnNumber: 7
             }, ("TURBOPACK compile-time value", void 0)),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$rpg_game$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$rpg_game$2f$node_modules$2f40$radix$2d$ui$2f$themes$2f$dist$2f$esm$2f$components$2f$flex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Flex"], {
@@ -313,7 +330,44 @@ const SampleIntegration = ()=>{
                                     children: "🦸 Step 1: Summon Hero"
                                 }, void 0, false, {
                                     fileName: "[project]/rpg_game/components/sample.tsx",
-                                    lineNumber: 54,
+                                    lineNumber: 66,
+                                    columnNumber: 13
+                                }, ("TURBOPACK compile-time value", void 0)),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$rpg_game$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$rpg_game$2f$node_modules$2f40$radix$2d$ui$2f$themes$2f$dist$2f$esm$2f$components$2f$flex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Flex"], {
+                                    justify: "center",
+                                    align: "center",
+                                    direction: "column",
+                                    gap: "2",
+                                    children: [
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$rpg_game$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("img", {
+                                            src: heroImg,
+                                            alt: "Hero Preview",
+                                            style: {
+                                                width: '120px',
+                                                height: '120px',
+                                                borderRadius: '12px',
+                                                border: '3px solid #3086FF',
+                                                background: '#f0f0f0',
+                                                objectFit: 'cover'
+                                            }
+                                        }, void 0, false, {
+                                            fileName: "[project]/rpg_game/components/sample.tsx",
+                                            lineNumber: 70,
+                                            columnNumber: 17
+                                        }, ("TURBOPACK compile-time value", void 0)),
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$rpg_game$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$rpg_game$2f$node_modules$2f40$radix$2d$ui$2f$themes$2f$dist$2f$esm$2f$components$2f$text$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Text"], {
+                                            size: "1",
+                                            color: "gray",
+                                            children: "Avatar generated by Name"
+                                        }, void 0, false, {
+                                            fileName: "[project]/rpg_game/components/sample.tsx",
+                                            lineNumber: 75,
+                                            columnNumber: 17
+                                        }, ("TURBOPACK compile-time value", void 0))
+                                    ]
+                                }, void 0, true, {
+                                    fileName: "[project]/rpg_game/components/sample.tsx",
+                                    lineNumber: 69,
                                     columnNumber: 13
                                 }, ("TURBOPACK compile-time value", void 0)),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$rpg_game$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$rpg_game$2f$node_modules$2f40$radix$2d$ui$2f$themes$2f$dist$2f$esm$2f$components$2f$flex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Flex"], {
@@ -333,34 +387,34 @@ const SampleIntegration = ()=>{
                                                     children: "Hero Name"
                                                 }, void 0, false, {
                                                     fileName: "[project]/rpg_game/components/sample.tsx",
-                                                    lineNumber: 57,
+                                                    lineNumber: 80,
                                                     columnNumber: 17
                                                 }, ("TURBOPACK compile-time value", void 0)),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$rpg_game$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$rpg_game$2f$node_modules$2f40$radix$2d$ui$2f$themes$2f$dist$2f$esm$2f$components$2f$text$2d$field$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__$2a$__as__TextField$3e$__["TextField"].Root, {
                                                     size: "3",
                                                     value: heroName,
-                                                    onChange: (e)=>setHeroName(e.target.value),
+                                                    onChange: handleNameChange,
                                                     placeholder: "Enter name..."
                                                 }, void 0, false, {
                                                     fileName: "[project]/rpg_game/components/sample.tsx",
-                                                    lineNumber: 58,
+                                                    lineNumber: 81,
                                                     columnNumber: 17
                                                 }, ("TURBOPACK compile-time value", void 0))
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/rpg_game/components/sample.tsx",
-                                            lineNumber: 56,
+                                            lineNumber: 79,
                                             columnNumber: 15
                                         }, ("TURBOPACK compile-time value", void 0)),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$rpg_game$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$rpg_game$2f$node_modules$2f40$radix$2d$ui$2f$themes$2f$dist$2f$esm$2f$components$2f$button$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
                                             size: "3",
-                                            onClick: ()=>createHero(heroName),
+                                            onClick: ()=>createHero(heroName, heroImg),
                                             disabled: isLoading || !!heroId,
                                             variant: "solid",
                                             children: [
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$rpg_game$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$rpg_game$2f$node_modules$2f40$radix$2d$ui$2f$react$2d$icons$2f$dist$2f$react$2d$icons$2e$esm$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["MagicWandIcon"], {}, void 0, false, {
                                                     fileName: "[project]/rpg_game/components/sample.tsx",
-                                                    lineNumber: 61,
+                                                    lineNumber: 85,
                                                     columnNumber: 17
                                                 }, ("TURBOPACK compile-time value", void 0)),
                                                 " ",
@@ -368,13 +422,13 @@ const SampleIntegration = ()=>{
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/rpg_game/components/sample.tsx",
-                                            lineNumber: 60,
+                                            lineNumber: 84,
                                             columnNumber: 15
                                         }, ("TURBOPACK compile-time value", void 0))
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/rpg_game/components/sample.tsx",
-                                    lineNumber: 55,
+                                    lineNumber: 78,
                                     columnNumber: 13
                                 }, ("TURBOPACK compile-time value", void 0)),
                                 heroId && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$rpg_game$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$rpg_game$2f$node_modules$2f40$radix$2d$ui$2f$themes$2f$dist$2f$esm$2f$components$2f$callout$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__$2a$__as__Callout$3e$__["Callout"].Root, {
@@ -385,12 +439,12 @@ const SampleIntegration = ()=>{
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$rpg_game$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$rpg_game$2f$node_modules$2f40$radix$2d$ui$2f$themes$2f$dist$2f$esm$2f$components$2f$callout$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__$2a$__as__Callout$3e$__["Callout"].Icon, {
                                             children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$rpg_game$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$rpg_game$2f$node_modules$2f40$radix$2d$ui$2f$react$2d$icons$2f$dist$2f$react$2d$icons$2e$esm$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["CheckCircledIcon"], {}, void 0, false, {
                                                 fileName: "[project]/rpg_game/components/sample.tsx",
-                                                lineNumber: 64,
+                                                lineNumber: 89,
                                                 columnNumber: 92
                                             }, ("TURBOPACK compile-time value", void 0))
                                         }, void 0, false, {
                                             fileName: "[project]/rpg_game/components/sample.tsx",
-                                            lineNumber: 64,
+                                            lineNumber: 89,
                                             columnNumber: 78
                                         }, ("TURBOPACK compile-time value", void 0)),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$rpg_game$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$rpg_game$2f$node_modules$2f40$radix$2d$ui$2f$themes$2f$dist$2f$esm$2f$components$2f$callout$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__$2a$__as__Callout$3e$__["Callout"].Text, {
@@ -403,30 +457,30 @@ const SampleIntegration = ()=>{
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/rpg_game/components/sample.tsx",
-                                                    lineNumber: 64,
+                                                    lineNumber: 89,
                                                     columnNumber: 145
                                                 }, ("TURBOPACK compile-time value", void 0))
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/rpg_game/components/sample.tsx",
-                                            lineNumber: 64,
+                                            lineNumber: 89,
                                             columnNumber: 127
                                         }, ("TURBOPACK compile-time value", void 0))
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/rpg_game/components/sample.tsx",
-                                    lineNumber: 64,
+                                    lineNumber: 89,
                                     columnNumber: 24
                                 }, ("TURBOPACK compile-time value", void 0))
                             ]
                         }, void 0, true, {
                             fileName: "[project]/rpg_game/components/sample.tsx",
-                            lineNumber: 53,
+                            lineNumber: 65,
                             columnNumber: 11
                         }, ("TURBOPACK compile-time value", void 0))
                     }, void 0, false, {
                         fileName: "[project]/rpg_game/components/sample.tsx",
-                        lineNumber: 52,
+                        lineNumber: 64,
                         columnNumber: 9
                     }, ("TURBOPACK compile-time value", void 0)),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$rpg_game$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$rpg_game$2f$node_modules$2f40$radix$2d$ui$2f$themes$2f$dist$2f$esm$2f$components$2f$card$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Card"], {
@@ -442,7 +496,7 @@ const SampleIntegration = ()=>{
                                     children: "🔨 Step 2: Forge Sword"
                                 }, void 0, false, {
                                     fileName: "[project]/rpg_game/components/sample.tsx",
-                                    lineNumber: 71,
+                                    lineNumber: 96,
                                     columnNumber: 13
                                 }, ("TURBOPACK compile-time value", void 0)),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$rpg_game$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$rpg_game$2f$node_modules$2f40$radix$2d$ui$2f$themes$2f$dist$2f$esm$2f$components$2f$grid$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Grid"], {
@@ -457,7 +511,7 @@ const SampleIntegration = ()=>{
                                                     children: "Strength ⚔️"
                                                 }, void 0, false, {
                                                     fileName: "[project]/rpg_game/components/sample.tsx",
-                                                    lineNumber: 76,
+                                                    lineNumber: 100,
                                                     columnNumber: 21
                                                 }, ("TURBOPACK compile-time value", void 0)),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$rpg_game$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$rpg_game$2f$node_modules$2f40$radix$2d$ui$2f$themes$2f$dist$2f$esm$2f$components$2f$text$2d$field$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__$2a$__as__TextField$3e$__["TextField"].Root, {
@@ -466,13 +520,13 @@ const SampleIntegration = ()=>{
                                                     onChange: (e)=>handleStatChange('strength', e.target.value)
                                                 }, void 0, false, {
                                                     fileName: "[project]/rpg_game/components/sample.tsx",
-                                                    lineNumber: 77,
+                                                    lineNumber: 101,
                                                     columnNumber: 21
                                                 }, ("TURBOPACK compile-time value", void 0))
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/rpg_game/components/sample.tsx",
-                                            lineNumber: 75,
+                                            lineNumber: 99,
                                             columnNumber: 17
                                         }, ("TURBOPACK compile-time value", void 0)),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$rpg_game$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$rpg_game$2f$node_modules$2f40$radix$2d$ui$2f$themes$2f$dist$2f$esm$2f$components$2f$box$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Box"], {
@@ -483,7 +537,7 @@ const SampleIntegration = ()=>{
                                                     children: "Agility 👟"
                                                 }, void 0, false, {
                                                     fileName: "[project]/rpg_game/components/sample.tsx",
-                                                    lineNumber: 80,
+                                                    lineNumber: 104,
                                                     columnNumber: 21
                                                 }, ("TURBOPACK compile-time value", void 0)),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$rpg_game$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$rpg_game$2f$node_modules$2f40$radix$2d$ui$2f$themes$2f$dist$2f$esm$2f$components$2f$text$2d$field$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__$2a$__as__TextField$3e$__["TextField"].Root, {
@@ -492,13 +546,13 @@ const SampleIntegration = ()=>{
                                                     onChange: (e)=>handleStatChange('agility', e.target.value)
                                                 }, void 0, false, {
                                                     fileName: "[project]/rpg_game/components/sample.tsx",
-                                                    lineNumber: 81,
+                                                    lineNumber: 105,
                                                     columnNumber: 21
                                                 }, ("TURBOPACK compile-time value", void 0))
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/rpg_game/components/sample.tsx",
-                                            lineNumber: 79,
+                                            lineNumber: 103,
                                             columnNumber: 17
                                         }, ("TURBOPACK compile-time value", void 0)),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$rpg_game$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$rpg_game$2f$node_modules$2f40$radix$2d$ui$2f$themes$2f$dist$2f$esm$2f$components$2f$box$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Box"], {
@@ -509,7 +563,7 @@ const SampleIntegration = ()=>{
                                                     children: "HP ❤️"
                                                 }, void 0, false, {
                                                     fileName: "[project]/rpg_game/components/sample.tsx",
-                                                    lineNumber: 84,
+                                                    lineNumber: 108,
                                                     columnNumber: 21
                                                 }, ("TURBOPACK compile-time value", void 0)),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$rpg_game$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$rpg_game$2f$node_modules$2f40$radix$2d$ui$2f$themes$2f$dist$2f$esm$2f$components$2f$text$2d$field$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__$2a$__as__TextField$3e$__["TextField"].Root, {
@@ -518,13 +572,13 @@ const SampleIntegration = ()=>{
                                                     onChange: (e)=>handleStatChange('hp', e.target.value)
                                                 }, void 0, false, {
                                                     fileName: "[project]/rpg_game/components/sample.tsx",
-                                                    lineNumber: 85,
+                                                    lineNumber: 109,
                                                     columnNumber: 21
                                                 }, ("TURBOPACK compile-time value", void 0))
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/rpg_game/components/sample.tsx",
-                                            lineNumber: 83,
+                                            lineNumber: 107,
                                             columnNumber: 17
                                         }, ("TURBOPACK compile-time value", void 0)),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$rpg_game$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$rpg_game$2f$node_modules$2f40$radix$2d$ui$2f$themes$2f$dist$2f$esm$2f$components$2f$box$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Box"], {
@@ -535,7 +589,7 @@ const SampleIntegration = ()=>{
                                                     children: "Crit Rate ⚡"
                                                 }, void 0, false, {
                                                     fileName: "[project]/rpg_game/components/sample.tsx",
-                                                    lineNumber: 88,
+                                                    lineNumber: 112,
                                                     columnNumber: 21
                                                 }, ("TURBOPACK compile-time value", void 0)),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$rpg_game$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$rpg_game$2f$node_modules$2f40$radix$2d$ui$2f$themes$2f$dist$2f$esm$2f$components$2f$text$2d$field$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__$2a$__as__TextField$3e$__["TextField"].Root, {
@@ -544,19 +598,74 @@ const SampleIntegration = ()=>{
                                                     onChange: (e)=>handleStatChange('crit', e.target.value)
                                                 }, void 0, false, {
                                                     fileName: "[project]/rpg_game/components/sample.tsx",
-                                                    lineNumber: 89,
+                                                    lineNumber: 113,
                                                     columnNumber: 21
                                                 }, ("TURBOPACK compile-time value", void 0))
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/rpg_game/components/sample.tsx",
-                                            lineNumber: 87,
+                                            lineNumber: 111,
                                             columnNumber: 17
                                         }, ("TURBOPACK compile-time value", void 0))
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/rpg_game/components/sample.tsx",
-                                    lineNumber: 74,
+                                    lineNumber: 98,
+                                    columnNumber: 13
+                                }, ("TURBOPACK compile-time value", void 0)),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$rpg_game$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$rpg_game$2f$node_modules$2f40$radix$2d$ui$2f$themes$2f$dist$2f$esm$2f$components$2f$box$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Box"], {
+                                    mt: "2",
+                                    children: [
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$rpg_game$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$rpg_game$2f$node_modules$2f40$radix$2d$ui$2f$themes$2f$dist$2f$esm$2f$components$2f$text$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Text"], {
+                                            size: "2",
+                                            weight: "bold",
+                                            children: "Sword Image URL 🖼️"
+                                        }, void 0, false, {
+                                            fileName: "[project]/rpg_game/components/sample.tsx",
+                                            lineNumber: 119,
+                                            columnNumber: 17
+                                        }, ("TURBOPACK compile-time value", void 0)),
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$rpg_game$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$rpg_game$2f$node_modules$2f40$radix$2d$ui$2f$themes$2f$dist$2f$esm$2f$components$2f$flex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Flex"], {
+                                            gap: "2",
+                                            align: "center",
+                                            children: [
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$rpg_game$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("img", {
+                                                    src: stats.imgUrl,
+                                                    alt: "Sword",
+                                                    style: {
+                                                        width: '40px',
+                                                        height: '40px',
+                                                        objectFit: 'contain',
+                                                        border: '1px solid #ccc',
+                                                        borderRadius: '4px'
+                                                    }
+                                                }, void 0, false, {
+                                                    fileName: "[project]/rpg_game/components/sample.tsx",
+                                                    lineNumber: 121,
+                                                    columnNumber: 21
+                                                }, ("TURBOPACK compile-time value", void 0)),
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$rpg_game$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$rpg_game$2f$node_modules$2f40$radix$2d$ui$2f$themes$2f$dist$2f$esm$2f$components$2f$text$2d$field$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__$2a$__as__TextField$3e$__["TextField"].Root, {
+                                                    style: {
+                                                        flexGrow: 1
+                                                    },
+                                                    value: stats.imgUrl,
+                                                    onChange: (e)=>handleStatChange('imgUrl', e.target.value),
+                                                    placeholder: "https://..."
+                                                }, void 0, false, {
+                                                    fileName: "[project]/rpg_game/components/sample.tsx",
+                                                    lineNumber: 122,
+                                                    columnNumber: 21
+                                                }, ("TURBOPACK compile-time value", void 0))
+                                            ]
+                                        }, void 0, true, {
+                                            fileName: "[project]/rpg_game/components/sample.tsx",
+                                            lineNumber: 120,
+                                            columnNumber: 17
+                                        }, ("TURBOPACK compile-time value", void 0))
+                                    ]
+                                }, void 0, true, {
+                                    fileName: "[project]/rpg_game/components/sample.tsx",
+                                    lineNumber: 118,
                                     columnNumber: 13
                                 }, ("TURBOPACK compile-time value", void 0)),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$rpg_game$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$rpg_game$2f$node_modules$2f40$radix$2d$ui$2f$themes$2f$dist$2f$esm$2f$components$2f$button$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
@@ -569,9 +678,9 @@ const SampleIntegration = ()=>{
                                         marginTop: '10px'
                                     },
                                     children: [
-                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$rpg_game$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$rpg_game$2f$node_modules$2f40$radix$2d$ui$2f$react$2d$icons$2f$dist$2f$react$2d$icons$2e$esm$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["LightningBoltIcon"], {}, void 0, false, {
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$rpg_game$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$rpg_game$2f$node_modules$2f40$radix$2d$ui$2f$react$2d$icons$2f$dist$2f$react$2d$icons$2e$esm$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["MixerHorizontalIcon"], {}, void 0, false, {
                                             fileName: "[project]/rpg_game/components/sample.tsx",
-                                            lineNumber: 96,
+                                            lineNumber: 129,
                                             columnNumber: 17
                                         }, ("TURBOPACK compile-time value", void 0)),
                                         " ",
@@ -579,7 +688,7 @@ const SampleIntegration = ()=>{
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/rpg_game/components/sample.tsx",
-                                    lineNumber: 93,
+                                    lineNumber: 126,
                                     columnNumber: 13
                                 }, ("TURBOPACK compile-time value", void 0)),
                                 swordId && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$rpg_game$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$rpg_game$2f$node_modules$2f40$radix$2d$ui$2f$themes$2f$dist$2f$esm$2f$components$2f$callout$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__$2a$__as__Callout$3e$__["Callout"].Root, {
@@ -590,12 +699,12 @@ const SampleIntegration = ()=>{
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$rpg_game$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$rpg_game$2f$node_modules$2f40$radix$2d$ui$2f$themes$2f$dist$2f$esm$2f$components$2f$callout$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__$2a$__as__Callout$3e$__["Callout"].Icon, {
                                             children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$rpg_game$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$rpg_game$2f$node_modules$2f40$radix$2d$ui$2f$react$2d$icons$2f$dist$2f$react$2d$icons$2e$esm$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["CheckCircledIcon"], {}, void 0, false, {
                                                 fileName: "[project]/rpg_game/components/sample.tsx",
-                                                lineNumber: 99,
+                                                lineNumber: 132,
                                                 columnNumber: 95
                                             }, ("TURBOPACK compile-time value", void 0))
                                         }, void 0, false, {
                                             fileName: "[project]/rpg_game/components/sample.tsx",
-                                            lineNumber: 99,
+                                            lineNumber: 132,
                                             columnNumber: 81
                                         }, ("TURBOPACK compile-time value", void 0)),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$rpg_game$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$rpg_game$2f$node_modules$2f40$radix$2d$ui$2f$themes$2f$dist$2f$esm$2f$components$2f$callout$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__$2a$__as__Callout$3e$__["Callout"].Text, {
@@ -608,30 +717,30 @@ const SampleIntegration = ()=>{
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/rpg_game/components/sample.tsx",
-                                                    lineNumber: 99,
+                                                    lineNumber: 132,
                                                     columnNumber: 148
                                                 }, ("TURBOPACK compile-time value", void 0))
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/rpg_game/components/sample.tsx",
-                                            lineNumber: 99,
+                                            lineNumber: 132,
                                             columnNumber: 130
                                         }, ("TURBOPACK compile-time value", void 0))
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/rpg_game/components/sample.tsx",
-                                    lineNumber: 99,
+                                    lineNumber: 132,
                                     columnNumber: 25
                                 }, ("TURBOPACK compile-time value", void 0))
                             ]
                         }, void 0, true, {
                             fileName: "[project]/rpg_game/components/sample.tsx",
-                            lineNumber: 70,
+                            lineNumber: 95,
                             columnNumber: 11
                         }, ("TURBOPACK compile-time value", void 0))
                     }, void 0, false, {
                         fileName: "[project]/rpg_game/components/sample.tsx",
-                        lineNumber: 69,
+                        lineNumber: 94,
                         columnNumber: 9
                     }, ("TURBOPACK compile-time value", void 0)),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$rpg_game$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$rpg_game$2f$node_modules$2f40$radix$2d$ui$2f$themes$2f$dist$2f$esm$2f$components$2f$card$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Card"], {
@@ -653,7 +762,7 @@ const SampleIntegration = ()=>{
                                     children: "⚔️ Step 3: Equip"
                                 }, void 0, false, {
                                     fileName: "[project]/rpg_game/components/sample.tsx",
-                                    lineNumber: 106,
+                                    lineNumber: 139,
                                     columnNumber: 13
                                 }, ("TURBOPACK compile-time value", void 0)),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$rpg_game$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$rpg_game$2f$node_modules$2f40$radix$2d$ui$2f$themes$2f$dist$2f$esm$2f$components$2f$text$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Text"], {
@@ -663,7 +772,7 @@ const SampleIntegration = ()=>{
                                     children: "Merge the Sword into the Hero"
                                 }, void 0, false, {
                                     fileName: "[project]/rpg_game/components/sample.tsx",
-                                    lineNumber: 107,
+                                    lineNumber: 140,
                                     columnNumber: 13
                                 }, ("TURBOPACK compile-time value", void 0)),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$rpg_game$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$rpg_game$2f$node_modules$2f40$radix$2d$ui$2f$themes$2f$dist$2f$esm$2f$components$2f$button$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
@@ -680,31 +789,31 @@ const SampleIntegration = ()=>{
                                     children: [
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$rpg_game$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$rpg_game$2f$node_modules$2f40$radix$2d$ui$2f$react$2d$icons$2f$dist$2f$react$2d$icons$2e$esm$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Link2Icon"], {}, void 0, false, {
                                             fileName: "[project]/rpg_game/components/sample.tsx",
-                                            lineNumber: 109,
+                                            lineNumber: 142,
                                             columnNumber: 15
                                         }, ("TURBOPACK compile-time value", void 0)),
                                         " Equip Sword ➔"
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/rpg_game/components/sample.tsx",
-                                    lineNumber: 108,
+                                    lineNumber: 141,
                                     columnNumber: 13
                                 }, ("TURBOPACK compile-time value", void 0))
                             ]
                         }, void 0, true, {
                             fileName: "[project]/rpg_game/components/sample.tsx",
-                            lineNumber: 105,
+                            lineNumber: 138,
                             columnNumber: 11
                         }, ("TURBOPACK compile-time value", void 0))
                     }, void 0, false, {
                         fileName: "[project]/rpg_game/components/sample.tsx",
-                        lineNumber: 104,
+                        lineNumber: 137,
                         columnNumber: 9
                     }, ("TURBOPACK compile-time value", void 0))
                 ]
             }, void 0, true, {
                 fileName: "[project]/rpg_game/components/sample.tsx",
-                lineNumber: 49,
+                lineNumber: 61,
                 columnNumber: 7
             }, ("TURBOPACK compile-time value", void 0)),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$rpg_game$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$rpg_game$2f$node_modules$2f40$radix$2d$ui$2f$themes$2f$dist$2f$esm$2f$components$2f$box$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Box"], {
@@ -716,25 +825,25 @@ const SampleIntegration = ()=>{
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$rpg_game$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$rpg_game$2f$node_modules$2f40$radix$2d$ui$2f$themes$2f$dist$2f$esm$2f$components$2f$callout$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__$2a$__as__Callout$3e$__["Callout"].Icon, {
                                 children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$rpg_game$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$rpg_game$2f$node_modules$2f40$radix$2d$ui$2f$react$2d$icons$2f$dist$2f$react$2d$icons$2e$esm$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["PlayIcon"], {}, void 0, false, {
                                     fileName: "[project]/rpg_game/components/sample.tsx",
-                                    lineNumber: 117,
+                                    lineNumber: 150,
                                     columnNumber: 64
                                 }, ("TURBOPACK compile-time value", void 0))
                             }, void 0, false, {
                                 fileName: "[project]/rpg_game/components/sample.tsx",
-                                lineNumber: 117,
+                                lineNumber: 150,
                                 columnNumber: 50
                             }, ("TURBOPACK compile-time value", void 0)),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$rpg_game$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$rpg_game$2f$node_modules$2f40$radix$2d$ui$2f$themes$2f$dist$2f$esm$2f$components$2f$callout$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__$2a$__as__Callout$3e$__["Callout"].Text, {
                                 children: "Processing..."
                             }, void 0, false, {
                                 fileName: "[project]/rpg_game/components/sample.tsx",
-                                lineNumber: 117,
+                                lineNumber: 150,
                                 columnNumber: 91
                             }, ("TURBOPACK compile-time value", void 0))
                         ]
                     }, void 0, true, {
                         fileName: "[project]/rpg_game/components/sample.tsx",
-                        lineNumber: 117,
+                        lineNumber: 150,
                         columnNumber: 23
                     }, ("TURBOPACK compile-time value", void 0)),
                     error && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$rpg_game$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$rpg_game$2f$node_modules$2f40$radix$2d$ui$2f$themes$2f$dist$2f$esm$2f$components$2f$callout$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__$2a$__as__Callout$3e$__["Callout"].Root, {
@@ -743,12 +852,12 @@ const SampleIntegration = ()=>{
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$rpg_game$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$rpg_game$2f$node_modules$2f40$radix$2d$ui$2f$themes$2f$dist$2f$esm$2f$components$2f$callout$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__$2a$__as__Callout$3e$__["Callout"].Icon, {
                                 children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$rpg_game$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$rpg_game$2f$node_modules$2f40$radix$2d$ui$2f$react$2d$icons$2f$dist$2f$react$2d$icons$2e$esm$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["CrossCircledIcon"], {}, void 0, false, {
                                     fileName: "[project]/rpg_game/components/sample.tsx",
-                                    lineNumber: 118,
+                                    lineNumber: 151,
                                     columnNumber: 59
                                 }, ("TURBOPACK compile-time value", void 0))
                             }, void 0, false, {
                                 fileName: "[project]/rpg_game/components/sample.tsx",
-                                lineNumber: 118,
+                                lineNumber: 151,
                                 columnNumber: 45
                             }, ("TURBOPACK compile-time value", void 0)),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$rpg_game$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$rpg_game$2f$node_modules$2f40$radix$2d$ui$2f$themes$2f$dist$2f$esm$2f$components$2f$callout$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__$2a$__as__Callout$3e$__["Callout"].Text, {
@@ -758,13 +867,13 @@ const SampleIntegration = ()=>{
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/rpg_game/components/sample.tsx",
-                                lineNumber: 118,
+                                lineNumber: 151,
                                 columnNumber: 94
                             }, ("TURBOPACK compile-time value", void 0))
                         ]
                     }, void 0, true, {
                         fileName: "[project]/rpg_game/components/sample.tsx",
-                        lineNumber: 118,
+                        lineNumber: 151,
                         columnNumber: 19
                     }, ("TURBOPACK compile-time value", void 0)),
                     hash && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$rpg_game$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$rpg_game$2f$node_modules$2f40$radix$2d$ui$2f$themes$2f$dist$2f$esm$2f$components$2f$callout$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__$2a$__as__Callout$3e$__["Callout"].Root, {
@@ -773,12 +882,12 @@ const SampleIntegration = ()=>{
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$rpg_game$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$rpg_game$2f$node_modules$2f40$radix$2d$ui$2f$themes$2f$dist$2f$esm$2f$components$2f$callout$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__$2a$__as__Callout$3e$__["Callout"].Icon, {
                                 children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$rpg_game$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$rpg_game$2f$node_modules$2f40$radix$2d$ui$2f$react$2d$icons$2f$dist$2f$react$2d$icons$2e$esm$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["CheckCircledIcon"], {}, void 0, false, {
                                     fileName: "[project]/rpg_game/components/sample.tsx",
-                                    lineNumber: 119,
+                                    lineNumber: 152,
                                     columnNumber: 60
                                 }, ("TURBOPACK compile-time value", void 0))
                             }, void 0, false, {
                                 fileName: "[project]/rpg_game/components/sample.tsx",
-                                lineNumber: 119,
+                                lineNumber: 152,
                                 columnNumber: 46
                             }, ("TURBOPACK compile-time value", void 0)),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$rpg_game$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$rpg_game$2f$node_modules$2f40$radix$2d$ui$2f$themes$2f$dist$2f$esm$2f$components$2f$callout$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__$2a$__as__Callout$3e$__["Callout"].Text, {
@@ -791,35 +900,35 @@ const SampleIntegration = ()=>{
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/rpg_game/components/sample.tsx",
-                                        lineNumber: 119,
+                                        lineNumber: 152,
                                         columnNumber: 124
                                     }, ("TURBOPACK compile-time value", void 0))
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/rpg_game/components/sample.tsx",
-                                lineNumber: 119,
+                                lineNumber: 152,
                                 columnNumber: 95
                             }, ("TURBOPACK compile-time value", void 0))
                         ]
                     }, void 0, true, {
                         fileName: "[project]/rpg_game/components/sample.tsx",
-                        lineNumber: 119,
+                        lineNumber: 152,
                         columnNumber: 18
                     }, ("TURBOPACK compile-time value", void 0))
                 ]
             }, void 0, true, {
                 fileName: "[project]/rpg_game/components/sample.tsx",
-                lineNumber: 116,
+                lineNumber: 149,
                 columnNumber: 7
             }, ("TURBOPACK compile-time value", void 0))
         ]
     }, void 0, true, {
         fileName: "[project]/rpg_game/components/sample.tsx",
-        lineNumber: 41,
+        lineNumber: 53,
         columnNumber: 5
     }, ("TURBOPACK compile-time value", void 0));
 };
-_s(SampleIntegration, "ffOdmLaTLLUgdVsKiuDLhRwJ4bA=", false, function() {
+_s(SampleIntegration, "xGYAqGtvcCP/Nl51KH8ZHXgJK7E=", false, function() {
     return [
         __TURBOPACK__imported__module__$5b$project$5d2f$rpg_game$2f$node_modules$2f40$iota$2f$dapp$2d$kit$2f$dist$2f$esm$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useCurrentAccount"],
         __TURBOPACK__imported__module__$5b$project$5d2f$rpg_game$2f$hooks$2f$useContract$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useContract"]
